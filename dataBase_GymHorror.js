@@ -23,9 +23,9 @@ const initializeDatabase = async () => {
   `;
   try {
     await pool.query(createTableQuery);
-    console.log('✅ Database table initialized successfully');
+    console.log(' Database table initialized successfully');
  } catch (error) {
-    console.error('❌ Error initializing database:', error.message);
+    console.error(' Error initializing database:', error.message);
     console.error('Full error:', error);
     throw error;
   }
@@ -41,7 +41,7 @@ async function getData() {
 }
 
 async function addInfo(){
-   await pool.query("insert into gymhorror (exercise_name, chance_of_death, exercise_effect, difficult_level, additional_info) values ('Bench press😍', '20%', 'low-effective', '3/10', 'Base chest exercise, but low effective')");
+   await pool.query("insert into gymhorror (exercise_name, chance_of_death, exercise_effect, difficult_level, additional_info) values ('Bench press', '20%', 'low-effective', '3/10', 'Base chest exercise, but low effective')");
 }
 
 async function deleteRow() {
@@ -49,7 +49,7 @@ async function deleteRow() {
 }
 deleteRow()
 async function updateRow() {
-   await pool.query(`update gymhorror set additional_info='lalala'`)
+   await pool.query(`update gymhorror set additional_info='barbos'`)
 }
 updateRow()
 
