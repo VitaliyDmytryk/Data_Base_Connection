@@ -16,7 +16,10 @@ const initializeDatabase = async () => {
     CREATE TABLE IF NOT EXISTS gym (
     id SERIAL PRIMARY KEY,
     exercise_name TEXT NOT NULL,      
-    difficult_level TEXT NOT NULL,   
+    difficult_name TEXT NOT NULL,
+    required_level TEXT NOT NULL,
+    Muscle_name TEXT NOT NULL,
+    Sets TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
    `;
@@ -37,18 +40,21 @@ async function addExercise(exercise_name, difficult_level) {
     const query = `
         INSERT INTO gym (
             exercise_name,
-            difficult_level
+            difficult_level,
+            required_level,
+            Muscle_name,
+            Sets
         ) 
-        VALUES ($1, $2) 
+        VALUES ($1, $2, $3, $4, $5) 
         RETURNING *`;
 
-    const values = [exercise_name, difficult_level];
+    const values = [exercise_name, difficult_level, required_level, Muscle_name, Sets];
    
     try {
        const res = await pool.query(query, values);
-       console.log('Exercise added:', res.rows[0]);
+       console.log('Вправу додано:', res.rows[0]);
     } catch (err) {
-        console.error('Error:', err.message);
+        console.error('Помилка:', err.message);
     }
 }
 
@@ -72,9 +78,9 @@ async function deleteExercise(id) {
     const res = await pool.query(query, values);
     
     if (res.rows.length > 0) {
-        console.log(`Exercise with id:${id} deleted:`, res.rows[0]);
+        console.log(`Вправа з :${id} видалено:`, res.rows[0]);
     } else {
-        console.log(`Exercise with id:${id} not found`);
+        console.log(`Вправа з :${id} не найдено`);
     }
     
   } catch (err) {
@@ -96,7 +102,7 @@ async function deleteExercise(id) {
         } 
 
         case 'add': {
-            await addExercise(process.argv[3], process.argv[4]);
+            await addExercise(process.argv[3], process.argv[4], process.argv[5], process.argv[6], process.argv[7]);
             break;
         }
         
