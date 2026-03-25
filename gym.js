@@ -13,10 +13,10 @@ const initializeDatabase = async () => {
    console.log('Initializing data database...');
 
   const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS gym (
+    CREATE TABLE IF NOT EXISTS gym2 (
     id SERIAL PRIMARY KEY,
     exercise_name TEXT NOT NULL,      
-    difficult_name TEXT NOT NULL,
+    difficult_level TEXT NOT NULL,
     required_level TEXT NOT NULL,
     Muscle_name TEXT NOT NULL,
     Sets TEXT NOT NULL,
@@ -36,9 +36,9 @@ const initializeDatabase = async () => {
 };
 await initializeDatabase();
 
-async function addExercise(exercise_name, difficult_level) {
+async function addExercise(exercise_name, difficult_level, required_level, Muscle_name, Sets) {
     const query = `
-        INSERT INTO gym (
+        INSERT INTO gym2 (
             exercise_name,
             difficult_level,
             required_level,
@@ -60,7 +60,7 @@ async function addExercise(exercise_name, difficult_level) {
 
 
 async function allExercises() {
-    const res = await pool.query('SELECT * FROM gym');
+    const res = await pool.query('SELECT * FROM gym2');
     
     console.table(res.rows)
     return res.rows
@@ -69,7 +69,7 @@ async function allExercises() {
 
 async function deleteExercise(id) {
     const query = `
-        DELETE FROM gym 
+        DELETE FROM gym2 
         WHERE id = $1
         RETURNING *`;
     const values = [id];
@@ -115,7 +115,7 @@ async function deleteExercise(id) {
         case "help": {
             console.log("All comands:");
             console.log("node db.js list - show all Exercises");
-            console.log("node db.js add (exercise_name) (difficult_level)");
+            console.log("node db.js add (exercise_name) (difficult_level) (required_level) (Muscle_name) (Sets)");
             console.log("node db.js delete (id)");
             break;
         }
